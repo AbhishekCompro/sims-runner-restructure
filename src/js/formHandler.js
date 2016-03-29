@@ -195,27 +195,31 @@ var renderCurrentActionList = function(){
 
     if(taskData.items[currentItemNumber - 1].init){
 
-            if(taskData.items[currentItemNumber - 1].methods[currentMethodNumber-1].init){
+        if(taskData.items[currentItemNumber - 1].methods[currentMethodNumber-1]) {
+            if (taskData.items[currentItemNumber - 1].methods[currentMethodNumber - 1].init) {
 
-                for(var k=0; k<taskData.items[currentItemNumber - 1].methods[currentMethodNumber-1].actions.length; k++){
-                    if(taskData.items[currentItemNumber - 1].methods[currentMethodNumber-1].actions[k].init){
+                for (var k = 0; k < taskData.items[currentItemNumber - 1].methods[currentMethodNumber - 1].actions.length; k++) {
 
-                        var functionName = taskData.items[currentItemNumber - 1].methods[currentMethodNumber-1].actions[k].name.replace(')','');
+                    if (taskData.items[currentItemNumber - 1].methods[currentMethodNumber - 1].actions[k]) {
 
-                        for(var l=0;l<taskData.items[currentItemNumber - 1].methods[currentMethodNumber-1].actions[k].values.length;l++){
+                        if (taskData.items[currentItemNumber - 1].methods[currentMethodNumber - 1].actions[k].init) {
 
-                            //taskData.items[currentItemNumber - 1].methods[currentMethodNumber-1].actions[k].values[l].actKey
+                            var functionName = taskData.items[currentItemNumber - 1].methods[currentMethodNumber - 1].actions[k].name.replace(')', '');
 
-                            functionName = functionName + taskData.items[currentItemNumber - 1].methods[currentMethodNumber-1].actions[k].values[l].actVal + ' , ';
+                            for (var l = 0; l < taskData.items[currentItemNumber - 1].methods[currentMethodNumber - 1].actions[k].values.length; l++) {
+
+                                functionName = functionName + taskData.items[currentItemNumber - 1].methods[currentMethodNumber - 1].actions[k].values[l].actVal + ' , ';
+                            }
+
+                            functionName = functionName.replace(/,([^,]*)$/, '' + '$1');
+                            functionName = functionName + ')';
+
+                            currentActionList.push(functionName);
                         }
-
-                        functionName = functionName.replace(/,([^,]*)$/,''+'$1');
-                        functionName = functionName + ')';
-
-                        currentActionList.push(functionName);
                     }
                 }
             }
+        }
     }
 
         for(var i=0;i<currentActionList.length;i++){
@@ -228,6 +232,15 @@ $('.action-details-section').hide();
 $('.method-details-section').hide();
 
 $('.sidebar-menu').on('click', '.method-node', function(e) {
+
+    $('.action-details-section').hide();
+    $('.method-details-section').show();
+
+    renderCurrentActionList();
+
+});
+
+$('.sidebar-menu').on('click', '.add-method a', function(e) {
 
     $('.action-details-section').hide();
     $('.method-details-section').show();

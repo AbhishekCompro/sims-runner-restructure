@@ -6,12 +6,16 @@
 var jsonToFile = function(){
 
     var taskData =   JSON.parse(localStorage.getItem('taskData'));
+    var pathwayListData = [];
 
-    var pathwayListData = JSON.parse(localStorage.getItem('pathwayListData'));
+    if(localStorage.getItem('pathwayListData')){
+        pathwayListData = JSON.parse(localStorage.getItem('pathwayListData'));
+
+    }
 
     var jsonFilename = taskData.id + '.'+ taskData.scenario + '.json';
 
-    var jsonFileContent = '[' + JSON.stringify(taskData) +',' + pathwayListData + ']';
+    var jsonFileContent = '[' + JSON.stringify(taskData) +',' + JSON.stringify(pathwayListData) + ']';
 
     download(new Blob([jsonFileContent]), jsonFilename, "text/plain");
 
@@ -31,7 +35,7 @@ $('#loadTaskJson').click(function() {
         reader.readAsText(file);
         reader.onload = function(e) {
             // browser completed reading file - display it
-            console.log(JSON.parse(e.target.result)[0])
+            console.log(JSON.parse(e.target.result)[0]);
             localStorage.setItem('taskData', (JSON.stringify(JSON.parse(e.target.result)[0])));
             localStorage.setItem('pathwayListData', (JSON.stringify(JSON.parse(e.target.result)[1])));
             window.location.reload(true);

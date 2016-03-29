@@ -39,7 +39,10 @@ $('.sidebar-menu').on('click', '.reorder-up', function() {
 //      remove / add delete node
         if($current.next('li').next('li').length == 0){
             $current.find('.delete-action-node').remove();
-            $current.prev('li').find('a').append('<span class="label pull-right bg-red delete-action-node"><i class="fa fa-times"></i></span>');
+
+            if($current.prev('li').index() > 0){
+                $current.prev('li').find('a').append('<span class="label pull-right bg-red delete-action-node"><i class="fa fa-times"></i></span>');
+            }
         }
 
 //      update data
@@ -98,7 +101,11 @@ $('.sidebar-menu').on('click', '.reorder-down', function() {
 //      remove / add delete node
         if($next.next('li').next('li').length == 0){
             $next.find('.delete-action-node').remove();
-            $current.find('a').append('<span class="label pull-right bg-red delete-action-node"><i class="fa fa-times"></i></span>');
+
+            if($current.index() > 0){
+                $current.find('a').append('<span class="label pull-right bg-red delete-action-node"><i class="fa fa-times"></i></span>');
+            }
+
         }
 
         var currentAddActionData = $current.data('tree');
