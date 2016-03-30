@@ -35,10 +35,17 @@ $('#loadTaskJson').click(function() {
         reader.readAsText(file);
         reader.onload = function(e) {
             // browser completed reading file - display it
-            console.log(JSON.parse(e.target.result)[0]);
-            localStorage.setItem('taskData', (JSON.stringify(JSON.parse(e.target.result)[0])));
-            localStorage.setItem('pathwayListData', (JSON.stringify(JSON.parse(e.target.result)[1])));
-            window.location.reload(true);
+            //console.log(JSON.parse(e.target.result)[0]);
+            var data1 = JSON.parse(e.target.result);
+            if(Array.isArray(data1)){
+                localStorage.setItem('taskData', (JSON.stringify(JSON.parse(e.target.result)[0])));
+                localStorage.setItem('pathwayListData', (JSON.stringify(JSON.parse(e.target.result)[1])));
+                window.location.reload(true);
+            }else{
+                localStorage.setItem('taskData', (JSON.stringify(JSON.parse(e.target.result))));
+                window.location.reload(true);
+            }
+
         };
     }
 });
